@@ -9,6 +9,7 @@
 <script>
 // @ is an alias to /src
 import readme from '../assets/docs/enkel_cli.md'
+
 export default {
   name: 'Home'
 }
