@@ -11,10 +11,7 @@
 import readme from '../assets/docs/enkel_cli.md'
 
 export default {
-  name: 'Home',
-  components: {
-    readme
-  }
+  name: 'Home'
 }
 </script>
 
