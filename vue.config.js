@@ -1,3 +1,5 @@
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+
 module.exports = {
   chainWebpack: config => {
     config.module.rule('md')
@@ -10,5 +12,15 @@ module.exports = {
       .options({
         raw: true
       })
+  },
+  configureWebpack: {
+    plugins: [
+      new CopyWebpackPlugin({
+        patterns: [{
+          from: "./CNAME",
+          to: './'
+        }]
+      })
+    ]
   }
 }
