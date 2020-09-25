@@ -33,30 +33,17 @@
 /**
  * Created by liangshan on 2017/7/13.
  */
-import Vue from 'vue'
-import Vuex from 'vuex'
-import * as actions from './actions'
-import * as mutations from './mutations'
-import * as getters from './getters'
 
-Vue.use(Vuex)
+import * as types from './mutation-types'
 
-const store = new Vuex.Store({
-  actions: actions.actions,
-  mutations: mutations.mutations,
-  getters: getters.getters,
-  modules: {
-    // moduleUser
+export const mutations = {
+  [types.SET_BG_TYPE] (state, data) {
+    state.bgType = data.bgType
   },
-  state: {
-    theme: 'dark',
-    maxWidth: 888,
-    bgType: 'color', // color: 预设颜色；image：图片；custom：自定义颜色
-    bg: '#ffffff',
-    mode: 'light' // light/dark
+  [types.SET_BG] (state, data) {
+    state.bg = data.bg
   },
-})
-
-export default store
-
-global.store = store
+  [types.SET_MODE] (state, data) {
+    state.mode = data.mode
+  }
+}

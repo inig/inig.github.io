@@ -16,10 +16,12 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new CopyWebpackPlugin({
-        patterns: [{
-          from: "./CNAME",
-          to: './'
-        }]
+        patterns: [
+          {
+            from: "./CNAME",
+            to: './'
+          }
+        ]
       })
     ]
   }

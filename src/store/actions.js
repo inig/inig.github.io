@@ -1,7 +1,7 @@
 /***
  **                                                          _ooOoo_
  **                                                         o8888888o
- **                                                         88" . "88
+ **                                                         88' . '88
  **                                                         (| -_- |)
  **                                                          O\ = /O
  **                                                      ____/`---'\____
@@ -12,7 +12,7 @@
  **                                                   | \_| ''\---/'' | |
  **                                                    \ .-\__ `-` ___/-. /
  **                                                 ___`. .' /--.--\ `. . __
- **                                              ."" '< `.___\_<|>_/___.' >'"".
+ **                                              .'' '< `.___\_<|>_/___.' >'''.
  **                                             | | : `- \`.;`\ _ /`;.`/ - ` : | |
  **                                               \ \ `-. \_ __\ /__ _/ .-` / /
  **                                       ======`-.____`-.___\_____/___.-`____.-'======
@@ -33,30 +33,12 @@
 /**
  * Created by liangshan on 2017/7/13.
  */
-import Vue from 'vue'
-import Vuex from 'vuex'
-import * as actions from './actions'
-import * as mutations from './mutations'
-import * as getters from './getters'
+import * as types from './mutation-types'
 
-Vue.use(Vuex)
-
-const store = new Vuex.Store({
-  actions: actions.actions,
-  mutations: mutations.mutations,
-  getters: getters.getters,
-  modules: {
-    // moduleUser
-  },
-  state: {
-    theme: 'dark',
-    maxWidth: 888,
-    bgType: 'color', // color: 预设颜色；image：图片；custom：自定义颜色
-    bg: '#ffffff',
-    mode: 'light' // light/dark
-  },
-})
-
-export default store
-
-global.store = store
+export const actions = {
+  [types.AJAX] ({ commit, state }, data) {
+    return new Promise((resolve, reject) => {
+      resolve(true)
+    })
+  }
+}

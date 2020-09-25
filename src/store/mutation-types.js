@@ -33,30 +33,13 @@
 /**
  * Created by liangshan on 2017/7/13.
  */
-import Vue from 'vue'
-import Vuex from 'vuex'
-import * as actions from './actions'
-import * as mutations from './mutations'
-import * as getters from './getters'
 
-Vue.use(Vuex)
+// >>>> mutations:
+export const SET_FOLDED = 'SET_FOLDED'
 
-const store = new Vuex.Store({
-  actions: actions.actions,
-  mutations: mutations.mutations,
-  getters: getters.getters,
-  modules: {
-    // moduleUser
-  },
-  state: {
-    theme: 'dark',
-    maxWidth: 888,
-    bgType: 'color', // color: 预设颜色；image：图片；custom：自定义颜色
-    bg: '#ffffff',
-    mode: 'light' // light/dark
-  },
-})
+export const SET_BG_TYPE = 'SET_BG_TYPE'
+export const SET_BG = 'SET_BG'
+export const SET_MODE = 'SET_MODE'
 
-export default store
+export const AJAX = 'AJAX'
 
-global.store = store
