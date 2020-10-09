@@ -30,33 +30,46 @@
  **                                              别人笑我忒疯癫，我笑自己命太贱；
  **                                              不见满街漂亮妹，哪个归得程序员？
  */
-/**
- * Created by liangshan on 2017/7/13.
- */
-import Vue from 'vue'
-import Vuex from 'vuex'
-import * as actions from './actions'
-import * as mutations from './mutations'
-import * as getters from './getters'
-import moduleConverter from './modules/Converter'
-Vue.use(Vuex)
+import * as types from '../mutation-types'
+import { request } from '../../utils/index'
 
-const store = new Vuex.Store({
-  actions: actions.actions,
-  mutations: mutations.mutations,
-  getters: getters.getters,
-  modules: {
-    moduleConverter
-  },
+const moduleConverter = {
+  namespaced: true,
   state: {
-    theme: 'dark',
-    maxWidth: 888,
-    bgType: 'color', // color: 预设颜色；image：图片；custom：自定义颜色
-    bg: '#ffffff',
-    mode: 'light' // light/dark
   },
-})
+  getters: {
+  },
+  mutations: {
+  },
+  actions: {
+    // getGroups ({ dispatch }) {
+    //   return new Promise(async (resolve, reject) => {
+    //     await dispatch('imLoginCheck').then(() => {
+    //       IM.getGroups().onSuccess(data => {
+    //         resolve(data)
+    //       }).onFail(data => {
+    //         reject(data)
+    //       })
+    //     }).catch(err => {
+    //       reject(err)
+    //       // reject(new Error(err.message))
+    //     })
+    //   })
+    // },
+    doConvertFromHttp ({ dispatch }, args) {
+      return new Promise(async (resolve, reject) => {
+        request({
+          url: '/inig/index/doConvert',
+          methods: 'get',
+          params: args || {}
+        }).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(new Error(err.message))
+        })
+      })
+    }
+  }
+}
 
-export default store
-
-global.store = store
+export default moduleConverter

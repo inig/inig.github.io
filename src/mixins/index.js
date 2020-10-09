@@ -87,6 +87,50 @@ export default {
       } else {
         return "dark";
       }
+    },
+    $fakeClick (obj) {
+      let ev = document.createEvent('MouseEvents')
+      ev.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
+      obj.dispatchEvent(ev)
+    },
+    $exportRaw (data, filename) {
+      var urlObject = window.URL || window.webkitURL || window
+      var exportBlob = new Blob([data])
+      var saveLink = document.createElementNS('http://www.w3.org/1999/xhtml', 'a')
+      saveLink.href = urlObject.createObjectURL(exportBlob)
+      saveLink.download = filename
+      this.$fakeClick(saveLink)
+    },
+    $saveImage (data, filename) {
+      var saveLink = document.createElementNS('http://www.w3.org/1999/xhtml', 'a')
+      saveLink.href = data
+      saveLink.download = filename
+      this.$fakeClick(saveLink)
+    },
+    $img2base64 (url) {
+      return new Promise((resolve, reject) => {
+        const img = new Image()
+
+        img.onload = () => {
+          const c = document.createElement('canvas')
+
+          c.width = img.naturalWidth
+          c.height = img.naturalHeight
+
+          const cxt = c.getContext('2d')
+
+          cxt.drawImage(img, 0, 0)
+          // 得到图片的base64编码数据
+          resolve(c.toDataURL('image/png'))
+        }
+
+        img.onerror = (e) => {
+          reject(new Error('图片下载失败，请稍后再试'))
+        }
+
+        img.setAttribute('crossOrigin', 'anonymous')
+        img.src = url
+      })
     }
   }
 }

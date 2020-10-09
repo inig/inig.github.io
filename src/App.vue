@@ -38,6 +38,7 @@ html,
 body {
   outline: none;
   height: 100%;
+  user-select: none;
 }
 #app {
   height: 100%;

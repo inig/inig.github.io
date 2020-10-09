@@ -20,52 +20,19 @@
       </div>
       <transition name="fade">
         <div class="converter_card_content"
-             v-if="sourceType == 'http'">
-          <Form :label-width="80">
-            <FormItem label="图片地址">
-              <Input v-model="formData.path"
-                     placeholder="输入图片地址"></Input>
-            </FormItem>
-            <FormItem label="输出类型">
-              <Select filterable
-                      v-model="formData.imageType">
-                <Option v-for="(item, index) in allImageTypes"
-                        :key="item.label"
-                        :value="item.value"
-                        :label="item.label"></Option>
-              </Select>
-            </FormItem>
-            <FormItem label="图片尺寸">
-              <Select v-model="formData.imageSize"
-                      style="width: 120px; float: left;">
-                <Option v-for="(item, index) in allSize"
-                        :key="item.label"
-                        :value="item.value"
-                        :label="item.label"></Option>
-              </Select>
-              <div style="float: left; margin-left: 10px; display: inline-flex; flex-direction: row; align-items: center; justify-content: flex-start;">
-                <transition name="fade">
-                  <Input v-model="formData.width"
-                         style="width: 100px;"
-                         v-if="formData.imageSize == -1">
-                  <span slot="prepend">宽</span>
-                  </Input>
-                </transition>
-                <transition name="fade">
-                  <Input v-model="formData.height"
-                         style="width: 100px; margin-left: 10px;"
-                         v-if="formData.imageSize == -1">
-                  <span slot="prepend">高</span>
-                  </Input>
-                </transition>
-              </div>
-            </FormItem>
-          </Form>
+             v-show="sourceType == 'http'">
+          <http-image :type="sourceType"
+                      :all-image-types="allImageTypes"
+                      :all-size="allSize"></http-image>
         </div>
       </transition>
       <transition name="fade">
         <div class="converter_card_content"
-             v-if="sourceType != 'http'"></div>
+             v-show="sourceType != 'http'">
+          <http-image :type="sourceType"
+                      :all-image-types="allImageTypes"
+                      :all-size="allSize"></http-image>
+        </div>
       </transition>
     </div>
   </div>
@@ -73,89 +40,70 @@
 
 <script>
 import Md from '../../../components/Md/index'
-import { Tabs, TabPane, ButtonGroup, Button, Form, FormItem, Input, Select, Option } from 'view-design'
+import { createNamespacedHelpers } from 'vuex'
+const { mapActions } = createNamespacedHelpers('../../../store/modules')
+import { Tabs, TabPane, ButtonGroup, Button, Form, FormItem, Input, Select, Option, Tooltip } from 'view-design'
 export default {
   name: 'ImageConverter',
   components: {
     Md,
-    Tabs, TabPane, ButtonGroup, Button, Form, FormItem, Input, Select, Option
+    HttpImage: () => import('./httpImage'),
+    Tabs, TabPane, ButtonGroup, Button, Form, FormItem, Input, Select, Option, Tooltip
   },
   data () {
     return {
       sourceType: 'http',
-      formData: {
-        path: '',
-        imageType: '',
-        width: 64,
-        height: 64,
-        imageSize: -2
-      },
       allSize: [
         {
           label: '保留原尺寸',
-          value: -2
+          value: -2,
+          size: 0
         },
         {
           label: '自定义尺寸',
-          value: -1
-        },
-        {
-          label: '16x16',
-          value: 0
+          value: -1,
+          size: 64
         },
         {
           label: '32x32',
-          value: 1
+          value: 0,
+          size: 32
         },
         {
           label: '48x48',
-          value: 2
+          value: 1,
+          size: 48
         },
         {
           label: '64x64',
-          value: 3
+          value: 2,
+          size: 64
         },
         {
           label: '96x96',
-          value: 4
+          value: 3,
+          size: 96
         },
         {
           label: '128x128',
-          value: 5
+          value: 4,
+          size: 128
+        },
+        {
+          label: '192x192',
+          value: 5,
+          size: 128
         },
         {
           label: '256x256',
-          value: 6
-        },
-        {
-          label: '512x512',
-          value: 7
+          value: 6,
+          size: 256
         }
       ],
       allImageTypes: [
         {
-          label: 'bmp',
-          value: 'image/bmp'
-        },
-        {
-          label: 'cmx',
-          value: 'image/x-cmx'
-        },
-        {
-          label: 'cod',
-          value: 'image/cis-cod'
-        },
-        {
-          label: 'gif',
-          value: 'image/gif'
-        },
-        {
-          label: 'ico',
-          value: 'image/x-icon'
-        },
-        {
-          label: 'ief',
-          value: 'image/ief'
+          label: 'png',
+          value: 'image/png'
         },
         {
           label: 'jpeg',
@@ -166,12 +114,16 @@ export default {
           value: 'image/jpeg'
         },
         {
-          label: 'jpe',
-          value: 'image/jpeg'
+          label: 'ico',
+          value: 'image/x-icon'
         },
         {
-          label: 'jfif',
-          value: 'image/jpeg'
+          label: 'gif',
+          value: 'image/gif'
+        },
+        {
+          label: 'bmp',
+          value: 'image/bmp'
         },
         {
           label: 'pbm',
@@ -182,28 +134,8 @@ export default {
           value: 'image/x-portable-graymap'
         },
         {
-          label: 'png',
-          value: 'image/png'
-        },
-        {
-          label: 'pnm',
-          value: 'image/x-portable-anymap'
-        },
-        {
           label: 'ppm',
           value: 'image/x-portable-pixmap'
-        },
-        {
-          label: 'ras',
-          value: 'image/x-cmu-raster'
-        },
-        {
-          label: 'rgb',
-          value: 'image/x-rgb'
-        },
-        {
-          label: 'svg',
-          value: 'image/svg+xml'
         },
         {
           label: 'tif',
@@ -214,17 +146,21 @@ export default {
           value: 'image/tiff'
         },
         {
-          label: 'xbm',
-          value: 'image/x-xbitmap'
+          label: 'ras',
+          value: 'image/x-cmu-raster'
         },
         {
-          label: 'xpm',
-          value: 'image/x-xpixmap'
+          label: 'rgb',
+          value: 'image/x-rgb'
         },
         {
           label: 'xwd',
           value: 'image/x-xwindowdump'
         },
+        {
+          label: 'xbm',
+          value: 'image/x-xbitmap'
+        }
       ]
     }
   },
@@ -262,8 +198,8 @@ export default {
   &_card {
     position: relative;
     width: 600px;
-    height: 300px;
-    margin: 100px auto;
+    // height: 300px;
+    margin: 64px auto;
     // background-color: #f5f5f5;
     border-radius: 5px;
     &_type {
@@ -278,12 +214,12 @@ export default {
     }
     &_content {
       position: absolute;
-      left: 0;
-      top: 64px;
       width: 100%;
       height: calc(100% - 64px);
-      padding: 15px 30px;
-      box-sizing: border-box;
+      // left: 0;
+      // top: 64px;
+      // padding: 15px 30px;
+      // box-sizing: border-box;
     }
   }
 }
