@@ -28,6 +28,17 @@ export default {
         outStyle.backgroundColor = this.bg
       }
       return outStyle
+    },
+    language () {
+      return this.$store.state.language
+    }
+  },
+  watch: {
+    language: {
+      immediate: true,
+      handler (val) {
+        this.$i18n.locale = val
+      }
     }
   }
 }
@@ -98,6 +109,31 @@ body {
   .ivu-color-picker-focused {
     border-color: transparent;
     box-shadow: none;
+  }
+}
+.upload-plugin-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  .upload-plugin-area {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+  }
+  .ivu-upload-drag {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+  }
+  .ivu-upload-drag:hover {
+    border: none;
   }
 }
 </style>

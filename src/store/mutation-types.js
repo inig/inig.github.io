@@ -41,5 +41,7 @@ export const SET_BG_TYPE = 'SET_BG_TYPE'
 export const SET_BG = 'SET_BG'
 export const SET_MODE = 'SET_MODE'
 
+export const SET_LANGUAGE = 'SET_LANGUAGE'
+
 export const AJAX = 'AJAX'
 

@@ -1,21 +1,84 @@
+<i18n>
+{
+  "en": {
+    "address": "picture address",
+    "choose": "choose picture",
+    "type": "output type",
+    "address-placeholder": "remote picture address",
+    "size": "output size",
+    "origin": "keep origin size",
+    "custom": "custom size",
+    "lock": "lock ratio",
+    "convert": "convert",
+    "output": "output",
+    "tip": "",
+    "picture-error": "preview error"
+  },
+  "cn": {
+    "address": "图片地址",
+    "choose": "选择图片",
+    "type": "输出类型",
+    "address-placeholder": "输入图片地址",
+    "size": "输出尺寸",
+    "origin": "保留原尺寸",
+    "custom": "自定义尺寸",
+    "lock": "锁定宽高",
+    "convert": "转换",
+    "output": "输出",
+    "tip": "右键下载图片",
+    "picture-error": "图片预览失败"
+  }
+}
+</i18n>
+
 <template>
   <Form :label-width="80"
         class="form_container"
         :style="converterCardStyles">
-    <FormItem label="图片地址">
-      <Input v-model="formData.path"
-             placeholder="输入图片地址"></Input>
-    </FormItem>
+    <transition name="fade">
+      <FormItem :label="$t('address')"
+                key="http"
+                v-if="type === 'http'">
+        <Input v-model="formData.path"
+               :placeholder="$t('address-placeholder')"></Input>
+      </FormItem>
+      <FormItem :label="$t('choose')"
+                key="local"
+                v-else>
+        <div style="display: flex; flex-direction: row; align-items: flex-end;">
+          <Upload style="width: 200px; height: 200px;"
+                  :accept="accept"
+                  :need-preview="true"
+                  @change="changeFile"
+                  :style="resultStyles"></Upload>
+          <span v-if="formData.file"
+                style="margin-left: 10px; line-height: 1; font-family: Consolas,Menlo,Courier,monospace"
+                v-text="imageOriginSize.width + 'x' + imageOriginSize.height"></span>
+        </div>
+      </FormItem>
+    </transition>
+
+    <!-- <transition name="fade"
+                delay="100"
+                appear>
+      <FormItem label="选择图片"
+                v-if="type !== 'http'">
+        <Upload style="width: 200px; height: 200px;"
+                :accept="accept"
+                :need-preview="true"
+                :style="resultStyles"></Upload>
+      </FormItem>
+    </transition> -->
 
     <transition name="fade"
                 :label-wdith="80"
-                v-if="formData.path && formData.path.trim()">
+                v-if="type === 'http' && formData.path && formData.path.trim()">
       <FormItem :label-width="80">
         <div style="display: flex; flex-direction: row; align-items: flex-end;">
           <div class="image_previewer"
                style="display: inline-flex;">
             <img :src="formData.path"
-                 alt="图片预览失败"
+                 :alt="$t('picture-error')"
                  @load="imageLoaded"
                  @error="imageLoadError">
           </div>
@@ -26,7 +89,7 @@
       </FormItem>
     </transition>
 
-    <FormItem label="输出类型">
+    <FormItem :label="$t('type')">
       <Select filterable
               v-model="formData.imageType">
         <Option v-for="(item, index) in allImageTypes"
@@ -35,9 +98,9 @@
                 :label="item.label"></Option>
       </Select>
     </FormItem>
-    <FormItem label="输出尺寸">
+    <FormItem :label="$t('size')">
       <Select v-model="formData.imageSize"
-              style="width: 120px; float: left;"
+              style="width: 150px; float: left;"
               @on-change="changeImageSize">
         <Option v-for="(item, index) in allSize"
                 :key="item.label"
@@ -47,15 +110,16 @@
       <div style="float: left; margin-left: 10px; display: inline-flex; flex-direction: row; align-items: center; justify-content: flex-start;">
         <transition name="fade">
           <Input v-model="formData.width"
-                 style="width: 100px;"
+                 style="width: 120px;"
                  :number="true"
                  @on-change="changeWidth"
                  v-if="formData.imageSize == -1">
-          <span slot="prepend">宽</span>
+          <span slot="prepend"
+                v-text="$t('width')"></span>
           </Input>
         </transition>
         <transition name="fade">
-          <Tooltip content="锁定宽高"
+          <Tooltip :content="$t('lock')"
                    placement="top"
                    style="width: 32px; height: 32px; margin-left: 10px;"
                    v-if="formData.imageSize == -1">
@@ -69,19 +133,21 @@
         </transition>
         <transition name="fade">
           <Input v-model="formData.height"
-                 style="width: 100px; margin-left: 10px;"
+                 style="width: 120px; margin-left: 10px;"
                  :number="true"
                  @on-change="changeHeight"
                  v-if="formData.imageSize == -1">
-          <span slot="prepend">高</span>
+          <span slot="prepend"
+                v-text="$t('height')"></span>
           </Input>
         </transition>
       </div>
     </FormItem>
     <FormItem :label-width="80">
       <Button type="primary"
-              :disabled="!imageIsReady"
-              @click="doConvert">转换</Button>
+              :disabled="!imageIsReady && !formData.file"
+              @click="doConvert"
+              v-text="$t('convert')"></Button>
     </FormItem>
     <transition name="fade">
       <div class="converter_result">
@@ -89,7 +155,8 @@
           <div class="converter_result_header_bg"
                :style="resultStyles"></div>
           <div class="converter_result_header_content"
-               :style="converterCardStyles">输出</div>
+               :style="converterCardStyles"
+               v-text="$t('output')"></div>
         </div>
 
         <div class="converter_result_error"
@@ -102,7 +169,8 @@
             <img :src="convertResponse.data.path"
                  alt="预览失败">
           </div>
-          <span class="converter_result_content_tip">右键下载图片</span>
+          <span class="converter_result_content_tip"
+                v-text="$t('tip')"></span>
         </div>
       </div>
     </transition>
@@ -116,6 +184,7 @@ import { Tabs, TabPane, ButtonGroup, Button, Form, FormItem, Input, Select, Opti
 export default {
   name: 'ConverterHttpImage',
   components: {
+    Upload: () => import('../../../components/Upload'),
     Tabs, TabPane, ButtonGroup, Button, Form, FormItem, Input, Select, Option, Tooltip
   },
   props: {
@@ -145,7 +214,9 @@ export default {
         height: 0
       },
       formData: {
-        path: 'http://static.dei2.com/images/1.jpeg',
+        path: '',
+        accept: '',
+        file: null,
         imageType: 'png',
         width: 0,
         height: 0,
@@ -160,6 +231,9 @@ export default {
     },
     bg () {
       return this.$store.state.bg
+    },
+    language () {
+      return this.$store.state.language
     },
     converterCardStyles () {
       if (this.bgType != 'image' && this.bg) {
@@ -182,7 +256,13 @@ export default {
           backgroundColor: '#fff'
         }
       }
+    },
+    accept () {
+      return Array.from(new Set(this.allImageTypes.map(item => item.value))).join(',')
     }
+  },
+  mounted () {
+    this.formData.accept = this.allImageTypes.map(item => item.label).join(';')
   },
   methods: {
     ...mapActions([
@@ -212,14 +292,28 @@ export default {
       }
     },
     async doConvert () {
-      let response = await this.$store.dispatch('moduleConverter/doConvertFromHttp', this.formData)
-      if (response.status == 200 && response.data) {
-        this.convertResponse = response.data
+      let response
+      if (this.type === 'http') {
+        response = await this.$store.dispatch('moduleConverter/doConvertFromHttp', this.formData)
+        if (response.status == 200 && response.data) {
+          this.convertResponse = response.data
+        } else {
+          this.convertResponse = {
+            status: 1001,
+            message: '失败',
+            data: null
+          }
+        }
       } else {
-        this.convertResponse = {
-          status: 1001,
-          message: '失败',
-          data: null
+        response = await this.$store.dispatch('moduleConverter/doConvertFromLocal', this.formData)
+        if (response.status == 200 && response.data) {
+          this.convertResponse = response.data
+        } else {
+          this.convertResponse = {
+            status: 1001,
+            message: '失败',
+            data: null
+          }
         }
       }
     },
@@ -237,6 +331,29 @@ export default {
       this.imageOriginSize = {
         width: 0,
         height: 0
+      }
+    },
+    changeFile (args) {
+      this.formData.file = args.file
+      let img = new Image()
+      img.onload = () => {
+        this.imageOriginSize = {
+          width: img.width,
+          height: img.height
+        }
+        this.formData.width = img.width
+        this.formData.height = img.height
+      }
+      img.src = this.$getFileURL(args.file)
+    }
+  },
+  watch: {
+    'formData.path': {
+      immediate: true,
+      handler (val) {
+        if (!val && !val.trim()) {
+          this.imageIsReady = false
+        }
       }
     }
   }

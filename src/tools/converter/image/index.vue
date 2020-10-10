@@ -1,26 +1,32 @@
+<i18n>
+{
+  "en": {
+    "tab1": "convert remote picture",
+    "tab2": "convert local picture"
+  },
+  "cn": {
+    "tab1": "转换网络图片",
+    "tab2": "转换本地图片"
+  }
+}
+</i18n>
 <template>
   <div class="converter">
-    <!-- <Md src="@/assets/docs/enkel_cli.md"></Md> -->
-    <!-- <Tabs v-model="sourceType"
-          type="line">
-      <TabPane label="远程图片"
-               name="http">标签一的内容</TabPane>
-      <TabPane label="本地图片"
-               name="local">标签二的内容</TabPane>
-    </Tabs> -->
     <div class="converter_card"
          :style="converterCardStyles">
       <div class="converter_card_type">
         <ButtonGroup>
           <Button :type="sourceType == 'http' ? 'primary' : 'default'"
-                  @click="sourceType = 'http'">转换网络图片</Button>
+                  @click="sourceType = 'http'"
+                  v-text="$t('tab1')"></Button>
           <Button :type="sourceType == 'local' ? 'primary' : 'default'"
-                  @click="sourceType = 'local'">转换本地图片</Button>
+                  @click="sourceType = 'local'"
+                  v-text="$t('tab2')"></Button>
         </ButtonGroup>
       </div>
       <transition name="fade">
         <div class="converter_card_content"
-             v-show="sourceType == 'http'">
+             v-if="sourceType == 'http'">
           <http-image :type="sourceType"
                       :all-image-types="allImageTypes"
                       :all-size="allSize"></http-image>
@@ -28,7 +34,7 @@
       </transition>
       <transition name="fade">
         <div class="converter_card_content"
-             v-show="sourceType != 'http'">
+             v-if="sourceType != 'http'">
           <http-image :type="sourceType"
                       :all-image-types="allImageTypes"
                       :all-size="allSize"></http-image>
@@ -55,12 +61,12 @@ export default {
       sourceType: 'http',
       allSize: [
         {
-          label: '保留原尺寸',
+          label: this.language === 'cn' ? '保留原尺寸' : 'keep origin size',
           value: -2,
           size: 0
         },
         {
-          label: '自定义尺寸',
+          label: this.language === 'cn' ? '自定义尺寸' : 'custom size',
           value: -1,
           size: 64
         },
@@ -171,6 +177,9 @@ export default {
     bg () {
       return this.$store.state.bg
     },
+    language () {
+      return this.$store.state.language
+    },
     converterCardStyles () {
       if (this.bgType != 'image' && this.bg) {
         return {
@@ -182,6 +191,14 @@ export default {
         }
       }
     }
+  },
+  watch: {
+    // language: {
+    //   immediate: true,
+    //   handler (val) {
+    //     this.$i18n.locale = val
+    //   }
+    // }
   }
 }
 </script>

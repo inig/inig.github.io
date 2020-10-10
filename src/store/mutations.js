@@ -45,5 +45,8 @@ export const mutations = {
   },
   [types.SET_MODE] (state, data) {
     state.mode = data.mode
+  },
+  [types.SET_LANGUAGE] (state, data) {
+    state.language = ['cn', 'en'].indexOf(data.language.toLowerCase()) > -1 ? data.language.toLowerCase() : 'en'
   }
 }

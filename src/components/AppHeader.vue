@@ -11,6 +11,9 @@
     <div class="app_header_append">
       <SettingsSkin></SettingsSkin>
     </div>
+    <div class="app_header_append">
+      <SettingsLanguage></SettingsLanguage>
+    </div>
   </div>
 </template>
 
@@ -18,7 +21,8 @@
 export default {
   name: 'AppHeader',
   components: {
-    SettingsSkin: () => import('./Skin/index')
+    SettingsSkin: () => import('./Skin/index'),
+    SettingsLanguage: () => import('./Language/index'),
   },
   computed: {
     maxWidth () {
@@ -88,6 +92,7 @@ export default {
   }
   &_append {
     height: 100%;
+    margin-left: 8px;
     display: flex;
     flex-direction: row;
     align-items: center;

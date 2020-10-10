@@ -1,6 +1,19 @@
+<i18n>
+{
+  "en": {
+    "label": "skin",
+    "title": "change skin"
+  },
+  "cn": {
+    "label": "换肤",
+    "title": "换肤"
+  }
+}
+</i18n>
+
 <template>
   <div class="settings_skin">
-    <Tooltip content="换肤"
+    <Tooltip :content="$t('label')"
              placement="bottom">
       <svg :style="svgSkinStyles"
            @click="openSkinModal">
@@ -9,7 +22,9 @@
     </Tooltip>
 
     <Modal v-model="skinModal.shown"
-           title="换肤">
+           :ok-text="$t('ok')"
+           :cancel-text="$t('cancel')"
+           :title="$t('title')">
       <div class="colors">
         <div class="color_item"
              v-for="(item, index) in allColors"
@@ -152,7 +167,6 @@ export default {
       this.$store.commit(types.SET_BG, {
         bg: color
       })
-      console.log('>>>>>>', this.$isLightOrDark(color))
     }
   }
 }
