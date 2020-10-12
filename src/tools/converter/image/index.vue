@@ -217,8 +217,8 @@ export default {
   &_card {
     position: relative;
     width: 600px;
-    // height: 300px;
-    margin: 64px auto;
+    // height: 100%;
+    margin: 0 auto;
     // background-color: #f5f5f5;
     border-radius: 5px;
     &_type {
@@ -234,12 +234,17 @@ export default {
     &_content {
       position: absolute;
       width: 100%;
-      height: calc(100% - 64px);
+      // height: calc(100% - 64px);
       // left: 0;
       // top: 64px;
       // padding: 15px 30px;
       // box-sizing: border-box;
     }
   }
+}
+.converter_card::before,
+.converter_card::after {
+  content: "";
+  display: table;
 }
 </style>

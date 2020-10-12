@@ -13,9 +13,9 @@ export default {
 <style lang="less" scoped>
 .side_menu {
   width: 100%;
-  height: 100%;
-  padding-top: 64px;
+  // height: 100%;
+  // padding-top: 64px;
+  padding: 30px 15px;
   box-sizing: border-box;
-  // background-color: cyan;
 }
 </style>
