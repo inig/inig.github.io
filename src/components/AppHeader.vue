@@ -3,7 +3,8 @@
        :style="{boxShadow: (scrollTop > 40) ? '0 2px 10px 0 rgba(0, 0, 0, 0.1)' : 'none', backgroundColor: (scrollTop > 10) ? (bgType !== 'image' ? bg : '#fff') : 'transparent'}">
     <div class="app_header_content"
          :style="{maxWidth: (maxWidth + 200) + 'px'}">
-      <div class="app_logo">
+      <div class="app_logo"
+           @click="goHome">
         <img src="@/assets/logo2.png"
              alt="">
       </div>
@@ -52,6 +53,11 @@ export default {
   methods: {
     initScroller (e) {
       this.scrollTop = this.appEle.scrollTop
+    },
+    goHome () {
+      this.$router.replace({
+        name: 'index'
+      })
     }
   }
 }

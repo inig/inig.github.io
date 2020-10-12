@@ -207,7 +207,8 @@ export default {
 
 <style lang="less" scoped>
 .converter {
-  width: 100%;
+  // width: calc(100% - 420px);
+  flex: 1;
   height: 100%;
   padding: 15px 0;
   box-sizing: border-box;
@@ -216,9 +217,9 @@ export default {
   // justify-content: center;
   &_card {
     position: relative;
-    width: 600px;
+    width: calc(100% - 30px);
     // height: 100%;
-    margin: 0 auto;
+    margin: 10px auto;
     // background-color: #f5f5f5;
     border-radius: 5px;
     &_type {

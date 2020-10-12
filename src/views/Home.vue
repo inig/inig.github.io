@@ -10,6 +10,8 @@
       <router-view name="ContentRouter"
                    class="content_router"
                    :style="{maxWidth: maxWidth + 'px'}"></router-view>
+      <AppExtra v-if="$route.name !== 'index'"
+                style="width: 200px; height: 400px; margin-top: 25px;"></AppExtra>
     </div>
 
     <!-- <article class="markdown-body">
@@ -23,12 +25,14 @@
 import readme from '../assets/docs/enkel_cli.md'
 import AppHeader from '../components/AppHeader'
 import AppSideMenu from '../components/AppSideMenu'
+import AppExtra from '../components/AppExtra'
 export default {
   name: 'Home',
   components: {
     readme,
     AppHeader,
-    AppSideMenu
+    AppSideMenu,
+    AppExtra
   },
   computed: {
     bgType () {
@@ -65,7 +69,7 @@ export default {
 .main {
   position: relative;
   margin: 0 auto;
-  height: 100%;
+  height: calc(100% - 64px);
   display: flex;
   flex-direction: row;
   align-items: flex-start;

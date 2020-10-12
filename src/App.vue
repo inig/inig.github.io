@@ -136,4 +136,17 @@ body {
     border: none;
   }
 }
+
+.side_menu {
+  .ivu-menu-light {
+    background: transparent;
+  }
+  .ivu-menu-light.ivu-menu-vertical
+    .ivu-menu-item-active:not(.ivu-menu-submenu) {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  .ivu-menu-vertical.ivu-menu-light:after {
+    background: transparent;
+  }
+}
 </style>

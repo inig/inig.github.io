@@ -1,5 +1,6 @@
 export const routerConverter = {
   label: '转换器',
+  enLabel: 'Converter',
   name: 'converter',
   path: '/converter',
   icon: 'https://static.dei2.com/images/bdp/menu_auth.png',
@@ -7,9 +8,10 @@ export const routerConverter = {
     {
       path: '/converter/image',
       name: 'image-converter',
-      label: '图片转换器',
+      label: '图片格式转换',
+      enLabel: 'Image Converter',
       meta: {
-        title: '图片转换器',
+        title: '图片格式转换',
         needAuthorize: true
       },
       components: {

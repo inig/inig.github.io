@@ -54,7 +54,7 @@ const store = new Vuex.Store({
     bgType: 'color', // color: 预设颜色；image：图片；custom：自定义颜色
     bg: '#F7EED6',
     mode: 'light', // light/dark
-    language: 'en' // 语言：cn: 中文，en: 英文
+    language: 'cn' // 语言：cn: 中文，en: 英文
   },
 })
 
