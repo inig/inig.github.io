@@ -58,18 +58,6 @@
       </FormItem>
     </transition>
 
-    <!-- <transition name="fade"
-                delay="100"
-                appear>
-      <FormItem label="选择图片"
-                v-if="type !== 'http'">
-        <Upload style="width: 200px; height: 200px;"
-                :accept="accept"
-                :need-preview="true"
-                :style="resultStyles"></Upload>
-      </FormItem>
-    </transition> -->
-
     <transition name="fade"
                 :label-wdith="80"
                 v-if="type === 'http' && formData.path && formData.path.trim()">
@@ -180,12 +168,12 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('../../../store/modules')
-import { Tabs, TabPane, ButtonGroup, Button, Form, FormItem, Input, Select, Option, Tooltip } from 'view-design'
+import { Button, Form, FormItem, Input, Select, Option, Tooltip } from 'view-design'
 export default {
   name: 'ConverterHttpImage',
   components: {
     Upload: () => import('../../../components/Upload'),
-    Tabs, TabPane, ButtonGroup, Button, Form, FormItem, Input, Select, Option, Tooltip
+    Button, Form, FormItem, Input, Select, Option, Tooltip
   },
   props: {
     type: {

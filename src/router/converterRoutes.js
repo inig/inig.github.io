@@ -18,6 +18,32 @@ export const routerConverter = {
         ContentRouter: () => import('../tools/converter/image/index')
       }
     },
+    {
+      path: '/converter/audio',
+      name: 'audio-converter',
+      label: '音频格式转换',
+      enLabel: 'Audio Converter',
+      meta: {
+        title: '音频格式转换',
+        needAuthorize: true
+      },
+      components: {
+        ContentRouter: () => import('../tools/converter/audio/index')
+      }
+    },
+    {
+      path: '/converter/video',
+      name: 'video-converter',
+      label: '视频格式转换',
+      enLabel: 'Video Converter',
+      meta: {
+        title: '视频格式转换',
+        needAuthorize: true
+      },
+      components: {
+        ContentRouter: () => import('../tools/converter/video/index')
+      }
+    },
     // {
     //   path: '/auth/router',
     //   name: 'router',

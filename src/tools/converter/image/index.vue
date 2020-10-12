@@ -48,13 +48,13 @@
 import Md from '../../../components/Md/index'
 import { createNamespacedHelpers } from 'vuex'
 const { mapActions } = createNamespacedHelpers('../../../store/modules')
-import { Tabs, TabPane, ButtonGroup, Button, Form, FormItem, Input, Select, Option, Tooltip } from 'view-design'
+import { ButtonGroup, Button } from 'view-design'
 export default {
   name: 'ImageConverter',
   components: {
     Md,
     HttpImage: () => import('./httpImage'),
-    Tabs, TabPane, ButtonGroup, Button, Form, FormItem, Input, Select, Option, Tooltip
+    ButtonGroup, Button
   },
   data () {
     return {
@@ -242,10 +242,5 @@ export default {
       // box-sizing: border-box;
     }
   }
-}
-.converter_card::before,
-.converter_card::after {
-  content: "";
-  display: table;
 }
 </style>
