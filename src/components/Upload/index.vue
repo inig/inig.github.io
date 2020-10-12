@@ -1,3 +1,13 @@
+<i18n>
+{
+  "en": {
+    "tip": "drag or choose file"
+  },
+  "cn": {
+    "tip": "拖拽或点击上传"
+  }
+}
+</i18n>
 <template>
   <div class="upload-plugin-container">
     <Upload type="drag"
@@ -17,7 +27,8 @@
         <Icon type="ios-cloud-upload"
               color="#888"
               size="30"></Icon>
-        <span style="color: #888;">拖拽或点击上传</span>
+        <span style="color: #888;"
+              v-text="$t('tip')"></span>
         <transition name="fade">
           <div class="image_previewer"
                :style="[containerStyles, resultStyles]"

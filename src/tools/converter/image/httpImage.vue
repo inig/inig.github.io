@@ -8,11 +8,11 @@
     "size": "output size",
     "origin": "keep origin size",
     "custom": "custom size",
-    "lock": "lock ratio",
+    "lock": "lock aspect ratio",
     "convert": "convert",
     "output": "output",
-    "tip": "",
-    "picture-error": "preview error"
+    "tip": "right click to download the picture",
+    "picture-error": "preview failed"
   },
   "cn": {
     "address": "图片地址",

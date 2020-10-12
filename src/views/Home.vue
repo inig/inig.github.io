@@ -1,5 +1,6 @@
 <template>
-  <div class="home">
+  <div class="home"
+       id="home">
     <AppHeader></AppHeader>
     <div class="main"
          :style="{maxWidth: (maxWidth + 200) + 'px'}">
@@ -37,7 +38,8 @@ export default {
 
 <style lang="less" scoped>
 .home {
-  // height: 100%;
+  height: 100%;
+  overflow-y: auto;
 }
 .main {
   position: relative;

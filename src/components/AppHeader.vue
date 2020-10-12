@@ -44,7 +44,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.appEle = document.querySelector('#app')
+      this.appEle = document.querySelector('#home')
       this.scrollTop = this.appEle.scrollTop
       this.appEle.addEventListener('scroll', this.initScroller)
     })

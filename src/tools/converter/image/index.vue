@@ -59,53 +59,6 @@ export default {
   data () {
     return {
       sourceType: 'http',
-      allSize: [
-        {
-          label: this.language === 'cn' ? '保留原尺寸' : 'keep origin size',
-          value: -2,
-          size: 0
-        },
-        {
-          label: this.language === 'cn' ? '自定义尺寸' : 'custom size',
-          value: -1,
-          size: 64
-        },
-        {
-          label: '32x32',
-          value: 0,
-          size: 32
-        },
-        {
-          label: '48x48',
-          value: 1,
-          size: 48
-        },
-        {
-          label: '64x64',
-          value: 2,
-          size: 64
-        },
-        {
-          label: '96x96',
-          value: 3,
-          size: 96
-        },
-        {
-          label: '128x128',
-          value: 4,
-          size: 128
-        },
-        {
-          label: '192x192',
-          value: 5,
-          size: 128
-        },
-        {
-          label: '256x256',
-          value: 6,
-          size: 256
-        }
-      ],
       allImageTypes: [
         {
           label: 'png',
@@ -190,6 +143,55 @@ export default {
           backgroundColor: '#fff'
         }
       }
+    },
+    allSize () {
+      return [
+        {
+          label: this.language === 'cn' ? '保留原尺寸' : 'keep original size',
+          value: -2,
+          size: 0
+        },
+        {
+          label: this.language === 'cn' ? '自定义尺寸' : 'custom size',
+          value: -1,
+          size: 64
+        },
+        {
+          label: '32x32',
+          value: 0,
+          size: 32
+        },
+        {
+          label: '48x48',
+          value: 1,
+          size: 48
+        },
+        {
+          label: '64x64',
+          value: 2,
+          size: 64
+        },
+        {
+          label: '96x96',
+          value: 3,
+          size: 96
+        },
+        {
+          label: '128x128',
+          value: 4,
+          size: 128
+        },
+        {
+          label: '192x192',
+          value: 5,
+          size: 128
+        },
+        {
+          label: '256x256',
+          value: 6,
+          size: 256
+        }
+      ]
     }
   },
   watch: {
