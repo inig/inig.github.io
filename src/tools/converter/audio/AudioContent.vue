@@ -152,215 +152,221 @@
 </template>
 
 <script>
-import { Form, FormItem, Input, Select, Option, Icon } from 'view-design'
-import { createNamespacedHelpers } from 'vuex'
-const { mapActions } = createNamespacedHelpers('../../../store/modules')
-export default {
-  name: 'AudioContent',
-  props: {
-    type: {
-      type: String,
-      default: 'http'
-    },
-    allAudioTypes: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
-  },
-  components: {
-    Upload: () => import('../../../components/Upload'),
-    Form, FormItem, Input, Select, Option, Icon
-  },
-  data () {
-    return {
-      coverAvailable: ['mp3', 'm4a'],
-      playing: false,
-      formData: {
-        path: '', // 媒体地址
-        cover: '',
-        accept: '',
-        file: null,
-        audioType: 'mp3',
-        bitRate: 0, // 比特率
-        sampleRate: 0, // 采样率
-        size: 0, // 文件容量
-        duration: 0, // 音频时长
-        album: '', // 专辑名
-        title: '', // 音频标题
-        artist: '' // 歌手
-      }
-    }
-  },
-  computed: {
-    bgType () {
-      return this.$store.state.bgType
-    },
-    bg () {
-      return this.$store.state.bg
-    },
-    language () {
-      return this.$store.state.language
-    },
-    converterCardStyles () {
-      if (this.bgType != 'image' && this.bg) {
-        return {
-          backgroundColor: this.$lightenOrDarken(this.bg, -10)
+  import { Form, FormItem, Input, Select, Option, Icon } from 'view-design'
+  import { createNamespacedHelpers } from 'vuex'
+  const { mapActions } = createNamespacedHelpers('../../../store/modules')
+  export default {
+    name: 'AudioContent',
+    props: {
+      type: {
+        type: String,
+        default: 'http'
+      },
+      allAudioTypes: {
+        type: Array,
+        default () {
+          return []
         }
-      } else {
-        return {
-          backgroundColor: '#fff'
+      },
+      allSampleRates: {
+        type: Array,
+        default () {
+          return []
         }
       }
     },
-    resultStyles () {
-      if (this.bgType != 'image' && this.bg) {
-        return {
-          backgroundColor: this.$lightenOrDarken(this.bg, -20)
-        }
-      } else {
-        return {
-          backgroundColor: '#fff'
+    components: {
+      Upload: () => import('../../../components/Upload'),
+      Form, FormItem, Input, Select, Option, Icon
+    },
+    data () {
+      return {
+        coverAvailable: ['mp3', 'm4a'],
+        playing: false,
+        formData: {
+          path: '', // 媒体地址
+          cover: '',
+          accept: '',
+          file: null,
+          audioType: 'mp3',
+          bitRate: 0, // 比特率
+          sampleRate: 0, // 采样率
+          size: 0, // 文件容量
+          duration: 0, // 音频时长
+          album: '', // 专辑名
+          title: '', // 音频标题
+          artist: '' // 歌手
         }
       }
     },
-    accept () {
-      return Array.from(new Set(this.allAudioTypes.map(item => item.value))).join(',')
-    }
-  },
-  mounted () {
-    this.formData.accept = this.allAudioTypes.map(item => item.label).join(';')
-  },
-  methods: {
-    ...mapActions([
-      'moduleConverter'
-    ]),
-    changeFile (args) {
-      this.playing = false
-      if (!args.info || !args.info.streams || !args.info.format) return
-      let s = args.info.streams[0]
-      console.log('>>>>', JSON.stringify(args, null, 2))
-      this.formData = {
-        ...this.formData, ...{
-          path: args.info.audio || '',
-          cover: args.info.cover || `http://static.dei2.com/images/inig/audio_placeholder.jpg`,
-          bitRate: parseFloat(args.info.format.bit_rate / 1000).toFixed(1) + ' kbps', // 比特率
-          sampleRate: parseFloat(s.sample_rate / 1000).toFixed(1) + ' kHz', // 采样率
-          size: this.$sizeFormat(args.info.format.size), // 文件容量
-          duration: this.$durationFormat(s.duration), // 音频时长
-          album: args.info.format.tags ? args.info.format.tags.album : (s.tags ? s.tags.album : ''), // 专辑名
-          title: (args.info.format.tags ? args.info.format.tags.title : (s.tags ? s.tags.title : args.file.name)) || args.file.name, // 音频标题
-          artist: args.info.format.tags ? args.info.format.tags.artist : (s.tags ? s.tags.artist : '') // 歌手
+    computed: {
+      bgType () {
+        return this.$store.state.bgType
+      },
+      bg () {
+        return this.$store.state.bg
+      },
+      language () {
+        return this.$store.state.language
+      },
+      converterCardStyles () {
+        if (this.bgType != 'image' && this.bg) {
+          return {
+            backgroundColor: this.$lightenOrDarken(this.bg, -10)
+          }
+        } else {
+          return {
+            backgroundColor: '#fff'
+          }
         }
+      },
+      resultStyles () {
+        if (this.bgType != 'image' && this.bg) {
+          return {
+            backgroundColor: this.$lightenOrDarken(this.bg, -20)
+          }
+        } else {
+          return {
+            backgroundColor: '#fff'
+          }
+        }
+      },
+      accept () {
+        return Array.from(new Set(this.allAudioTypes.map(item => item.value))).join(',')
       }
-      this.$nextTick(() => {
+    },
+    mounted () {
+      this.formData.accept = this.allAudioTypes.map(item => item.label).join(';')
+    },
+    methods: {
+      ...mapActions([
+        'moduleConverter'
+      ]),
+      changeFile (args) {
+        this.playing = false
+        if (!args.info || !args.info.streams || !args.info.format) return
+        let s = args.info.streams[0]
+        console.log('>>>>', JSON.stringify(args, null, 2))
+        this.formData = {
+          ...this.formData, ...{
+            path: args.info.audio || '',
+            cover: args.info.cover || `http://static.dei2.com/images/inig/audio_placeholder.jpg`,
+            bitRate: parseFloat(args.info.format.bit_rate / 1000).toFixed(1) + ' kbps', // 比特率
+            sampleRate: parseFloat(s.sample_rate / 1000).toFixed(1) + ' kHz', // 采样率
+            size: this.$sizeFormat(args.info.format.size), // 文件容量
+            duration: this.$durationFormat(s.duration), // 音频时长
+            album: args.info.format.tags ? args.info.format.tags.album : (s.tags ? s.tags.album : ''), // 专辑名
+            title: (args.info.format.tags ? args.info.format.tags.title : (s.tags ? s.tags.title : args.file.name)) || args.file.name, // 音频标题
+            artist: args.info.format.tags ? args.info.format.tags.artist : (s.tags ? s.tags.artist : '') // 歌手
+          }
+        }
+        this.$nextTick(() => {
+          let medioPlayerBox = this.$refs.medioPlayerBox
+          if (medioPlayerBox) {
+            medioPlayerBox.removeEventListener('ended', this.musicStop);
+            medioPlayerBox.addEventListener('ended', this.musicStop, false);
+          }
+        })
+        // let img = new Image()
+        // img.onload = () => {
+        //   this.imageOriginSize = {
+        //     width: img.width,
+        //     height: img.height
+        //   }
+        //   this.formData.width = img.width
+        //   this.formData.height = img.height
+        // }
+        // img.src = this.$getFileURL(args.file)
+      },
+      togglePlay () {
+        this.playing = !this.playing
         let medioPlayerBox = this.$refs.medioPlayerBox
-        if (medioPlayerBox) {
-          medioPlayerBox.removeEventListener('ended', this.musicStop);
-          medioPlayerBox.addEventListener('ended', this.musicStop, false);
+        if (this.playing) {
+          medioPlayerBox && medioPlayerBox.play()
+        } else {
+          medioPlayerBox && medioPlayerBox.pause()
         }
-      })
-      // let img = new Image()
-      // img.onload = () => {
-      //   this.imageOriginSize = {
-      //     width: img.width,
-      //     height: img.height
-      //   }
-      //   this.formData.width = img.width
-      //   this.formData.height = img.height
-      // }
-      // img.src = this.$getFileURL(args.file)
-    },
-    togglePlay () {
-      this.playing = !this.playing
-      let medioPlayerBox = this.$refs.medioPlayerBox
-      if (this.playing) {
-        medioPlayerBox && medioPlayerBox.play()
-      } else {
+      },
+      musicStop () {
+        this.playing = false
+        let medioPlayerBox = this.$refs.medioPlayerBox
         medioPlayerBox && medioPlayerBox.pause()
       }
-    },
-    musicStop () {
-      this.playing = false
-      let medioPlayerBox = this.$refs.medioPlayerBox
-      medioPlayerBox && medioPlayerBox.pause()
     }
   }
-}
 </script>
 
 <style lang="less" scoped>
-.converter_content {
-  width: 100%;
-  height: 400px;
-  padding: 15px 30px;
-  box-sizing: border-box;
-}
-.extra_info {
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: space-around;
-  margin-left: 10px;
-  width: 100%;
-  flex: 1;
-  font-family: Consolas, Menlo, Courier, monospace;
-  &_item {
+  .converter_content {
     width: 100%;
-    line-height: 28px;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-start;
-    &_label {
-      width: 110px;
-      // height: 100%;
-      color: rgba(0, 0, 0, 0.5);
-      line-height: 1.4;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-end;
-    }
-    &_value {
-      // height: 100%;
-      display: flex;
-      flex: 1;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      line-height: 1.4;
-      padding-left: 10px;
-      box-sizing: border-box;
-    }
+    height: 400px;
+    padding: 15px 30px;
+    box-sizing: border-box;
   }
-  .media_player {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    &_icon {
+  .extra_info {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 10px;
+    width: 100%;
+    flex: 1;
+    font-family: Consolas, Menlo, Courier, monospace;
+    &_item {
+      width: 100%;
+      line-height: 28px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: flex-start;
+      &_label {
+        width: 110px;
+        // height: 100%;
+        color: rgba(0, 0, 0, 0.5);
+        line-height: 1.4;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+      }
+      &_value {
+        // height: 100%;
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        line-height: 1.4;
+        padding-left: 10px;
+        box-sizing: border-box;
+      }
+    }
+    .media_player {
+      position: absolute;
+      right: 0;
+      bottom: 0;
       width: 48px;
       height: 48px;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      border-radius: 50%;
-      box-shadow: 0 2px 20px #fff;
-      svg {
+      &_icon {
         width: 48px;
         height: 48px;
-        fill: #4fc08d;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-radius: 50%;
+        box-shadow: 0 2px 20px #fff;
+        svg {
+          width: 48px;
+          height: 48px;
+          fill: #4fc08d;
+        }
       }
     }
   }
-}
 </style>
