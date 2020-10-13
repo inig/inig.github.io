@@ -222,7 +222,6 @@ export default {
             data: null
           }
         }
-        console.log('2222')
         this.$emit('change', {
           sourceType: this.sourceType,
           info: this.audioInfo,
@@ -261,7 +260,6 @@ export default {
       //   filename: file.name,
       //   message: '请上传' + (this.formData.format.join(';')) + '格式的文件'
       // })
-      console.log('1111')
       this.$Notice.error({
         title: '格式错误',
         desc: '请上传' + (this.formData.format.join('; ')) + '格式的文件'

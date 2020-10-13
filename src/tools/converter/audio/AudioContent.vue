@@ -175,6 +175,7 @@ export default {
   },
   data () {
     return {
+      coverAvailable: ['mp3', 'm4a'],
       playing: false,
       formData: {
         path: '', // 媒体地址
@@ -237,8 +238,9 @@ export default {
     ]),
     changeFile (args) {
       this.playing = false
-      if (!args.info || !args.info.streams) return
+      if (!args.info || !args.info.streams || !args.info.format) return
       let s = args.info.streams[0]
+      console.log('>>>>', JSON.stringify(args, null, 2))
       this.formData = {
         ...this.formData, ...{
           path: args.info.audio || '',
@@ -247,9 +249,9 @@ export default {
           sampleRate: parseFloat(s.sample_rate / 1000).toFixed(1) + ' kHz', // 采样率
           size: this.$sizeFormat(args.info.format.size), // 文件容量
           duration: this.$durationFormat(s.duration), // 音频时长
-          album: args.info.format.tags.album || '', // 专辑名
-          title: args.file.name || args.info.format.tags.title || '', // 音频标题
-          artist: args.info.format.tags.artist || '' // 歌手
+          album: args.info.format.tags ? args.info.format.tags.album : (s.tags ? s.tags.album : ''), // 专辑名
+          title: (args.info.format.tags ? args.info.format.tags.title : (s.tags ? s.tags.title : args.file.name)) || args.file.name, // 音频标题
+          artist: args.info.format.tags ? args.info.format.tags.artist : (s.tags ? s.tags.artist : '') // 歌手
         }
       }
       this.$nextTick(() => {

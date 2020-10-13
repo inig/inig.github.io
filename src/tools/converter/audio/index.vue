@@ -82,10 +82,10 @@ export default {
           label: 'wma',
           value: 'audio/x-ms-wma'
         },
-        {
-          label: 'mka',
-          value: 'audio/x-matroska'
-        },
+        // {
+        //   label: 'mka',
+        //   value: 'audio/x-matroska'
+        // },
         {
           label: 'au',
           value: 'audio/basic'
