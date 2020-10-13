@@ -42,20 +42,6 @@ const moduleConverter = {
   mutations: {
   },
   actions: {
-    // getGroups ({ dispatch }) {
-    //   return new Promise(async (resolve, reject) => {
-    //     await dispatch('imLoginCheck').then(() => {
-    //       IM.getGroups().onSuccess(data => {
-    //         resolve(data)
-    //       }).onFail(data => {
-    //         reject(data)
-    //       })
-    //     }).catch(err => {
-    //       reject(err)
-    //       // reject(new Error(err.message))
-    //     })
-    //   })
-    // },
     doConvertFromHttp ({ dispatch }, args) {
       return new Promise(async (resolve, reject) => {
         request({
@@ -88,21 +74,42 @@ const moduleConverter = {
         }).catch(err => {
           reject(new Error(err.message))
         })
-        // request({
-        //   url: '/inig/index/doConvert2',
-        //   methods: 'post',
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data'
-        //   },
-        //   data: fd
-        // }).then(res => {
-        //   console.log('=====', res)
-        //   resolve(res)
-        // }).catch(err => {
-        //   reject(new Error(err.message))
-        // })
       })
-    }
+    },
+    getAudioInfoFromHttp ({ dispatch }, args) {
+      return new Promise(async (resolve, reject) => {
+        request({
+          url: '/inig/index/getAudioInfo',
+          methods: 'get',
+          params: args || {}
+        }).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(new Error(err.message))
+        })
+      })
+    },
+    getAudioInfoFromLocal ({ dispatch }, args) {
+      return new Promise(async (resolve, reject) => {
+        let fd = new FormData()
+        fd.append('file', args['file'])
+        let params = []
+        for (let k in args) {
+          if (args.hasOwnProperty(k) && k !== 'file' && k != 'path') {
+            params.push(k + '=' + encodeURIComponent(args[k]))
+          }
+        }
+        request.post('/inig/index/getAudioInfo2?' + params.join('&'), fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(new Error(err.message))
+        })
+      })
+    },
   }
 }
 

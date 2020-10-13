@@ -12,6 +12,7 @@
     "convert": "convert",
     "output": "output",
     "tip": "right click to download the picture",
+    "download": "download",
     "picture-error": "preview failed"
   },
   "cn": {
@@ -26,6 +27,7 @@
     "convert": "转换",
     "output": "输出",
     "tip": "右键下载图片",
+    "download": "下载图片",
     "picture-error": "图片预览失败"
   }
 }
@@ -49,6 +51,7 @@
           <Upload style="width: 200px; height: 200px;"
                   :accept="accept"
                   :need-preview="true"
+                  :format="formData.accept.split(';')"
                   @change="changeFile"
                   :style="resultStyles"></Upload>
           <span v-if="formData.file"
@@ -157,8 +160,12 @@
             <img :src="convertResponse.data.path"
                  alt="预览失败">
           </div>
-          <span class="converter_result_content_tip"
-                v-text="$t('tip')"></span>
+          <!-- <span class="converter_result_content_tip"
+                v-text="$t('tip')"></span> -->
+          <Button type="success"
+                  style="margin-top: 15px;"
+                  @click="$downloadImage(convertResponse.data.path)"
+                  v-text="$t('download')"></Button>
         </div>
       </div>
     </transition>

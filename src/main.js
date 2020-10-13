@@ -4,10 +4,15 @@ import router from './router'
 import store from './store'
 import mixins from './mixins'
 import VueI18n from 'vue-i18n'
+import { Notice, Message, Modal } from 'view-design'
 import 'github-markdown-css'
 import 'view-design/dist/styles/iview.css'
 
 Vue.use(VueI18n)
+
+Vue.prototype.$Notice = Notice
+Vue.prototype.$Message = Message
+Vue.prototype.$Modal = Modal
 
 const messages = {
   "en": {

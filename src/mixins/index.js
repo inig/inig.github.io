@@ -142,6 +142,40 @@ export default {
         getUrl = window.webkitURL.createObjectURL(file);
       }
       return getUrl;
+    },
+    $durationFormat (duration) {
+      let d = parseInt(Number(duration))
+      let h = String(parseInt(d / (60 * 60)))
+      let m = String(parseInt((d % (60 * 60)) / 60)).padStart(2, '0')
+      let s = String(parseInt(d % 60)).padStart(2, '0')
+      return (h > 0 ? h.padStart(2, '0') + ':' : '') + m + ':' + s
+    },
+    $sizeFormat (size) {
+      let out = ''
+      if (size > 1 * 1000 * 1000 * 1000) {
+        out = parseFloat(size / 1000 / 1000 / 1000).toFixed(1) + ' GB'
+      } else if (size > 1000 * 1000) {
+        out = parseFloat(size / 1000 / 1000).toFixed(1) + ' MB'
+      } else if (size > 1000) {
+        out = parseFloat(size / 1000).toFixed + ' KB'
+      } else {
+        out = parseInt(size) + ' B'
+      }
+      return out
+    },
+    $downloadImage (url, filename) {
+      var x = new XMLHttpRequest();
+      x.open("GET", url, true);
+      x.responseType = 'blob';
+      let fn = filename || url.split('/').pop() || 'inig.png'
+      x.onload = function (e) {
+        var url = window.URL.createObjectURL(x.response)
+        var a = document.createElement('a');
+        a.href = url
+        a.download = fn
+        a.click()
+      }
+      x.send();
     }
   }
 }
