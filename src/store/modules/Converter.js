@@ -110,6 +110,41 @@ const moduleConverter = {
         })
       })
     },
+    convertAudioFromHttp ({ dispatch }, args) {
+      return new Promise(async (resolve, reject) => {
+        request({
+          url: '/inig/index/convertAudio',
+          methods: 'get',
+          params: args || {}
+        }).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(new Error(err.message))
+        })
+      })
+    },
+    convertAudioFromLocal ({ dispatch }, args) {
+      return new Promise(async (resolve, reject) => {
+        let fd = new FormData()
+        fd.append('file', args['file'])
+        let params = []
+        for (let k in args) {
+          if (args.hasOwnProperty(k) && k !== 'file' && k != 'path') {
+            params.push(k + '=' + encodeURIComponent(args[k]))
+          }
+        }
+        request.post('/inig/index/convertAudio2?' + params.join('&'), fd, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }).then(res => {
+          resolve(res)
+        }).catch(err => {
+          reject(new Error(err.message))
+        })
+      })
+    },
+
   }
 }
 

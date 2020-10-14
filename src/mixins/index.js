@@ -157,7 +157,7 @@ export default {
       } else if (size > 1000 * 1000) {
         out = parseFloat(size / 1000 / 1000).toFixed(1) + ' MB'
       } else if (size > 1000) {
-        out = parseFloat(size / 1000).toFixed + ' KB'
+        out = parseFloat(size / 1000).toFixed(1) + ' KB'
       } else {
         out = parseInt(size) + ' B'
       }
@@ -176,6 +176,10 @@ export default {
         a.click()
       }
       x.send();
+    },
+    $numberFormat (number) {
+      let s = String(number)
+      return s.padStart(s.length + (s.length % 3 != 0 ? (3 - s.length % 3) : 0), '0').replace(/(\d{3})/g, '$1,').replace(/,$/, '').replace(/^0{1,2}/g, '')
     }
   }
 }
