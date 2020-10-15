@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./src/assets/logo3.png"],"names":["module","exports"],"mappings":"mGAAAA,EAAOC,QAAU,IAA0B","file":"js/chunk-2d21d15b.7f2b20ce.js","sourcesContent":["module.exports = __webpack_public_path__ + \"img/logo3.901ddee4.png\";"],"sourceRoot":""}

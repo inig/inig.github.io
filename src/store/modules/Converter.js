@@ -93,21 +93,36 @@ const moduleConverter = {
       return new Promise(async (resolve, reject) => {
         let fd = new FormData()
         fd.append('file', args['file'])
+
         let params = []
         for (let k in args) {
           if (args.hasOwnProperty(k) && k !== 'file' && k != 'path') {
             params.push(k + '=' + encodeURIComponent(args[k]))
           }
         }
-        request.post('/inig/index/getAudioInfo2?' + params.join('&'), fd, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+        request({
+          url: '/inig/audio/getAudioInfoFromLocal?' + params.join('&'),
+          data: fd,
+          method: 'POST',
+          // headers: {
+          //   'Content-Type': 'multipart/form-data'
+          // }
         }).then(res => {
           resolve(res)
         }).catch(err => {
+          console.log('=======', err.message)
           reject(new Error(err.message))
         })
+        // request.post('/inig/audio/getAudioInfoFromLocal?' + params.join('&'), fd, {
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data'
+        //   }
+        // }).then(res => {
+        //   resolve(res)
+        // }).catch(err => {
+        //   console.log('=======', err.message)
+        //   reject(new Error(err.message))
+        // })
       })
     },
     convertAudioFromHttp ({ dispatch }, args) {

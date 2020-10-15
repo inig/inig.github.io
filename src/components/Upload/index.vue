@@ -179,7 +179,7 @@ export default {
   data () {
     return {
       formData: {
-        maxSize: 200 * 1024,
+        maxSize: 200 * 1024 * 1024,
         format: ['jpg', 'png', 'jpeg', 'gif']
       },
       currentPlugin: '',
@@ -201,7 +201,7 @@ export default {
     ...mapActions([
       'moduleConverter'
     ]),
-    async beforeUpload (file) {
+    beforeUpload (file) {
       this.cachedFile = file
       if (this.sourceType === 'image') {
         this.fileUrl = this.$getFileURL(file)
@@ -210,18 +210,35 @@ export default {
           file: this.cachedFile
         })
       } else if (this.sourceType === 'audio') {
-        let response = await this.$store.dispatch('moduleConverter/getAudioInfoFromLocal', {
+        // let response = await this.$store.dispatch('moduleConverter/getAudioInfoFromLocal', {
+        //   accept: "mp3;wav;flac;ogg;aac;m4a;wma;au;aiff;opus;amr",
+        //   file: file
+        // })
+        // if (response && response.status == 200 && response.data && response.data.status == 200 && response.data.data) {
+        //   this.audioInfo = response.data.data
+        // } else {
+        //   this.audioInfo = {
+        //     status: 1001,
+        //     message: '失败',
+        //     data: null
+        //   }
+        // }
+
+        this.$store.dispatch('moduleConverter/getAudioInfoFromLocal', {
+          accept: "mp3",
           file: file
-        })
-        if (response && response.status == 200 && response.data && response.data.status == 200 && response.data.data) {
-          this.audioInfo = response.data.data
-        } else {
-          this.audioInfo = {
-            status: 1001,
-            message: '失败',
-            data: null
+        }).then(response => {
+          if (response && response.status == 200 && response.data && response.data.status == 200 && response.data.data) {
+            this.audioInfo = response.data.data
+          } else {
+            this.audioInfo = {
+              status: 1001,
+              message: '失败',
+              data: null
+            }
           }
-        }
+        })
+
         this.$emit('change', {
           sourceType: this.sourceType,
           info: this.audioInfo,
@@ -231,6 +248,7 @@ export default {
       return false
     },
     uploadSuccess (event, file, fileList) {
+      console.log('uploadSuccess: ', event)
       if (event.status !== 200) {
         // this.$Message.destroy()
         // this.$Message.error(event.message)
@@ -243,12 +261,14 @@ export default {
       }
     },
     uploadFail (event, file, fileList) {
+      console.log('uploadFail', event.message)
       this.$emit('fail', {
         filename: file.name,
         message: event.message
       })
     },
     handleMaxSize (file) {
+      console.log('文件不能超过' + (this.formData.maxSize / 1024) + 'M')
       this.$emit('fail', {
         filename: file.name,
         message: '文件不能超过' + (this.formData.maxSize / 1024) + 'M'
@@ -260,6 +280,7 @@ export default {
       //   filename: file.name,
       //   message: '请上传' + (this.formData.format.join(';')) + '格式的文件'
       // })
+      console.log('handleFormatError: ', '请上传' + (this.formData.format.join('; ')) + '格式的文件')
       this.$Notice.error({
         title: '格式错误',
         desc: '请上传' + (this.formData.format.join('; ')) + '格式的文件'
