@@ -72,13 +72,13 @@
                   key="local"
                   v-else>
           <div style="display: flex; flex-direction: row;">
-            <Upload style="width: 200px; height: 200px;"
-                    :accept="accept"
-                    :need-preview="true"
-                    source-type="audio"
-                    :format="formData.accept.split(';')"
-                    @change="changeFile"
-                    :style="resultStyles"></Upload>
+            <Upload2 style="width: 200px; height: 200px;"
+                     :accept="accept"
+                     :need-preview="true"
+                     source-type="audio"
+                     :format="formData.accept.split(';')"
+                     @change="changeFile"
+                     :style="resultStyles"></Upload2>
 
             <transition name="fade">
               <div class="extra_info"
@@ -355,6 +355,7 @@ export default {
   },
   components: {
     Upload: () => import('../../../components/Upload'),
+    Upload2: () => import('../../../components/Upload2'),
     Form, FormItem, Input, Select, Option, Icon, Slider, Button, Tooltip
   },
   data () {
